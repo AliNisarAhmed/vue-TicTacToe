@@ -14,9 +14,8 @@ export default {
   },
   methods: {
     strike () {
-      if (gameStatus !== 'win' || gameStatus !== 'draw') {
+      if (this.gameStatus === 'turn') {
         this.mark = this.$parent.activePlayer;
-        this.frozen = true;
         this.$emit('strike', this.name) 
       }
     }

@@ -5,19 +5,19 @@
     </div>
     <table class="grid">
       <tr>
-        <cell name="1" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="3" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="2" v-on:strike="update" gameStatus="gameStatus"></cell>  
+        <cell name="1" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="3" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="2" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
       <tr>
-        <cell name="4" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="5" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="6" v-on:strike="update" gameStatus="gameStatus"></cell>  
+        <cell name="4" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="5" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="6" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
       <tr>
-        <cell name="7" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="8" v-on:strike="update" gameStatus="gameStatus"></cell>  
-        <cell name="9" v-on:strike="update" gameStatus="gameStatus"></cell>  
+        <cell name="7" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="8" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="9" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
     </table>
   </div>
