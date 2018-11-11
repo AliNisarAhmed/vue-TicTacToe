@@ -6,16 +6,10 @@
 
 <script>
 export default {
-  props: ['name', 'gameStatus'],
-  data () {
-    return {
-      mark: ''
-    };
-  },
+  props: ['name', 'gameStatus', 'mark'],
   methods: {
     strike () {
-      if (this.gameStatus === 'turn') {
-        this.mark = this.$parent.activePlayer;
+      if (this.gameStatus === 'turn' && !this.mark) {
         this.$emit('strike', this.name) 
       }
     }
@@ -31,7 +25,6 @@ export default {
   font-size: 3.5em;
   font-family: 'Gochi Hand', sans-serif;
 }
-
 .cell:hover {
     background-color: #7f8c8d;
 }

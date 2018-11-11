@@ -3,7 +3,13 @@
     <div id="details">
       <h1>Tic Tac Toe</h1>
     </div>
-    <Grid></Grid>
+    <div class="scoreBoard">
+      <span>O has {{ wins.O }} wins</span>
+      <h2>Score Board</h2>
+      <span>X has {{ wins.X }} wins</span>
+    </div>
+    <Grid @gameOver="gameOver" :restartGame="restartGame" @init="init"></Grid>
+    <button class="restart" v-if="restartVisible" @click="restart">Restart</button>
   </div>
 </template>
 
@@ -21,8 +27,27 @@ export default {
       wins: {
         O: 0,
         X: 0
-      }
+      },
+      restartVisible: false,
+      restartGame: false
     };
+  },
+  methods: {
+    gameOver (payload) {
+      if (payload.winningPlayer) {
+        payload.winningPlayer === 'O'? this.wins.O++: this.wins.X++;
+      }
+      this.matches++;
+      this.restartVisible = true;
+      return; 
+    },
+    restart () {
+      this.restartVisible = false;
+      this.restartGame = true;
+    },
+    init () {
+      this.restartGame = false;
+    }
   }
 }
 </script>
@@ -38,8 +63,11 @@ body {
 
 #app {
   margin: 0 auto;
-  max-width: 270px;
+  max-width: 310px;
   color: #34495e;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 
 h1 {
@@ -70,14 +98,15 @@ h1 {
 .scoreBoard {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
   height: 15px;
   background-color: #16a085;
   box-shadow: 10px solid #fff;
-  padding: 20px;
-  overflow-x: none;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 15px;
 }
 
 .scoreBoard h2 {
@@ -85,9 +114,6 @@ h1 {
 }
 
 .scoreBoard span {
-  float: right;
-  font-size: 1.5em;
   font-weight: bold;
-  margin-left: 20px;
 }
 </style>

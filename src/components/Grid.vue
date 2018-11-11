@@ -5,19 +5,19 @@
     </div>
     <table class="grid">
       <tr>
-        <cell name="1" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="3" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="2" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="1" :mark="this.cells[1]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="2" :mark="this.cells[2]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="3" :mark="this.cells[3]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
       <tr>
-        <cell name="4" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="5" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="6" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="4" :mark="this.cells[4]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="5" :mark="this.cells[5]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="6" :mark="this.cells[6]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
       <tr>
-        <cell name="7" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="8" v-on:strike="update" :gameStatus="gameStatus"></cell>  
-        <cell name="9" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="7" :mark="this.cells[7]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="8" :mark="this.cells[8]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
+        <cell name="9" :mark="this.cells[9]" v-on:strike="update" :gameStatus="gameStatus"></cell>  
       </tr>  
     </table>
   </div>
@@ -26,6 +26,7 @@
 <script>
 import Cell from './Cell';
 export default {
+  props: ["restartGame"],
   components: {
     'cell': Cell
   },
@@ -48,14 +49,20 @@ export default {
     };
   },
   computed: {
-    gameStatus () {
-      if (this.checkForWin) {
-        return 'win';
-      } else if (this.moves === 9) {
-        return 'draw';
-      } else {
-        return "turn";
+    gameStatus: {
+      get: function () {
+        if (this.moves === 9) {
+          return 'draw';
+        } else if (this.checkForWin) {
+          return 'win';
+        } else {
+          return "turn";
+        }
+      },
+      set: function (val) {
+        return val;
       }
+
     },
     checkForWin () {
       let cells = this.cells;
@@ -82,17 +89,35 @@ export default {
       if (this.gameStatus === 'win') {
         this.gameStatusColor = 'statusWin';
         this.gameStatusMessage = `${this.activePlayer} wins!`;
+        this.$emit('gameOver', { winningPlayer: this.activePlayer });
         return;
       } else if (this.gameStatus === 'draw') {
         this.gameStatusColor = 'statusDraw';
         this.gameStatusMessage = `It's a draw!`;
+        this.$emit('gameOver', {
+          condition: 'draw',
+        });
         return;
       }
         this.gameStatusMessage = `${this.changePlayer(this.activePlayer)}'s turn` 
         return;
     },
   },
-  
+  watch: {
+    restartGame() {
+      if (this.restartGame) {
+        this.gameStatus = 'turn';
+        this.gameStatusColor = 'statusTurn';
+        this.activePlayer = 'O';
+        this.gameStatusMessage = "O's turn";
+        this.moves = 0;
+        for (let key of Object.keys(this.cells)) {
+          this.cells[key] = '';
+        }
+        this.$emit('init');
+      }
+    }
+  }
 }
 </script>
 
